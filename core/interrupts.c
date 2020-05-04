@@ -7,7 +7,9 @@
  ******************************************************************************
  */
 
+/* Includes (referenced modules should be included here as well)-------------*/
 #include "main.h"
+#include "led.h"
 
 void TIM6_DAC_IRQHandler(void)
 {
