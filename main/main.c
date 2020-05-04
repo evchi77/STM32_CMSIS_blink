@@ -3,28 +3,35 @@
  * @file           : main.c
  * @author         : Vsevolod
  * @brief          : Main program body
+ * @date           : 04.05.2020 18:56
  ******************************************************************************
  */
 
+/* Includes -----------------------------------------------------------------*/
 #include "main.h"
 #include "clock.h"
 #include "led.h"
 
-void TIM6_DAC_IRQHandler(void)
-{
-	led_led2_switch();
-
-	TIM6->SR &= ~(TIM_SR_UIF);	// Clear interrupt flag is mandatory!
-	return;
-}
-
-void init_all(void);
-void example_blinker_init(void);
-void example_timer_init(void);
-void example_timer_interrupt_enable(void);
-void delay_cycles(uint32_t i);
+/* Private types ------------------------------------------------------------*/
 
 
+/* Private variables --------------------------------------------------------*/
+
+
+/* Private functions prototypes ---------------------------------------------*/
+static void init_all(void);
+static void example_blinker_init(void);
+static void example_timer_init(void);
+static void example_timer_interrupt_enable(void);
+static void delay_cycles(uint32_t i);
+
+/* Private defines ----------------------------------------------------------*/
+
+
+/* Private macros -----------------------------------------------------------*/
+
+
+/* MAIN FUNCTION ------------------------------------------------------------*/
 int main(void)
 {
 	init_all();
@@ -38,7 +45,8 @@ int main(void)
 	}
 }
 
-void init_all(void)
+/* Private functions --------------------------------------------------------*/
+static void init_all(void)
 {
 	clock_init();
 	led_init();
@@ -48,7 +56,7 @@ void init_all(void)
 	return;
 }
 
-void example_blinker_init(void)
+static void example_blinker_init(void)
 {
 	GPIOA->MODER 	|= GPIO_MODER_MODER1_1;	// Set PA1 to AF mode
 	GPIOA->AFR[0] 	|= GPIO_AFRL_AFSEL1_1;	// Set PA1 to AF2
@@ -56,7 +64,7 @@ void example_blinker_init(void)
 	return;
 }
 
-void example_timer_init(void)
+static void example_timer_init(void)
 {
 // Will use TIM5 for PWM
 
@@ -79,7 +87,7 @@ void example_timer_init(void)
 	return;
 }
 
-void example_timer_interrupt_enable(void)
+static void example_timer_interrupt_enable(void)
 {
 // Will use TIM6 for generating interupts
 
@@ -99,7 +107,7 @@ void example_timer_interrupt_enable(void)
 	return;
 }
 
-inline void delay_cycles(uint32_t i)
+inline static void delay_cycles(uint32_t i)
 {
 	for(; i > 0; --i);
 }

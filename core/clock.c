@@ -1,18 +1,17 @@
-/*
- * clock.c
- *
- *     Created: 21.04.2020 21:32:33
- *      Author: Vsevolod
- *       Brief: Clocks initialization routines
- */ 
+/**
+ ******************************************************************************
+ * @file           : clock.c
+ * @author         : Vsevolod
+ * @brief          : 
+ * @date           : 04.05.2020 19:06
+ ******************************************************************************
+ */
 
-/*** Includes ***/
+/* Includes -----------------------------------------------------------------*/
 #include "main.h"
 #include "clock.h"
-/****************/
 
-// Clocks other then SystemCoreClock (SYSCLK) (the one is located in system_stm32f4xx.c/.h)
-// Preload with default values:
+/* Public variables definitions ---------------------------------------------*/
 uint32_t	HCLK			= HSE_VALUE,
             cortex_sys_tim	= HSE_VALUE/8,
             APB1_periph     = HSE_VALUE,
@@ -20,8 +19,32 @@ uint32_t	HCLK			= HSE_VALUE,
             APB2_periph     = HSE_VALUE,
             APB2_tim        = HSE_VALUE;
 
+/* Private types ------------------------------------------------------------*/
 
-/*** Users functions ***/
+
+/* Private variables --------------------------------------------------------*/
+
+
+/* Private functions prototypes ---------------------------------------------*/
+// Reset RCC registers
+static void __clock_reset_all(void); 
+
+// Set system clock
+static void __clock_set_sys(void);
+
+// Set peripheral clocks
+static void __clock_set_periph(void);
+
+/* Private defines ----------------------------------------------------------*/
+// HSE_VALUE, HSI_VALUE, LSE_VALUE, LSI_VALUE defined in system_stm32f4xx.h
+
+#define HSE_STARTUP_TIMEOUT		1000
+#define LSE_STARTUP_TIMEOUT		5000
+
+/* Private macros -----------------------------------------------------------*/
+
+
+/* Public functions ---------------------------------------------------------*/
 // Clocks initialization
 void clock_init(void)
 {
@@ -49,11 +72,10 @@ void clock_update(void)
 
     return;
 }
-/***********************/
 
-/*** Internal/system functions ***/
+/* Private functions --------------------------------------------------------*/
 // Reset RCC registers
-void __clock_reset_all(void)
+static void __clock_reset_all(void)
 {
     /* Reset the RCC clock configuration to the default reset state ------------*/
     /* Set HSION bit */
@@ -80,7 +102,7 @@ void __clock_reset_all(void)
 }
 
 // Set system clock
-void __clock_set_sys(void)
+static void __clock_set_sys(void)
 {
     __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
 
@@ -139,9 +161,8 @@ void __clock_set_sys(void)
 }
 
 // Set peripheral clocks
-void __clock_set_periph(void)
+static void __clock_set_periph(void)
 {
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;	// Enable clock on GPIO port A
     return;
 }
-/*********************************/

@@ -1,15 +1,25 @@
-/*
- * led.h
- *
- *     Created: 21.04.2020 20:32:45
- *      Author: Vsevolod
- *       Brief: LED-specific routines & definitions
+/**
+ ******************************************************************************
+ * @file           : led.h
+ * @author         : Vsevolod
+ * @brief          : LED-specific routines & definitions
+ * @date           : 04.05.2020 19:16
+ ******************************************************************************
  */
 
 #ifndef LED_H_
 #define LED_H_
 
-/*** Users functions ***/
+/* Includes -----------------------------------------------------------------*/
+
+
+/* Public types -------------------------------------------------------------*/
+
+
+/* Public variables ---------------------------------------------------------*/
+
+
+/* Public functions prototypes ----------------------------------------------*/
 // Init LEDs
 void led_init(void);
 
@@ -39,12 +49,11 @@ void led_led1_switch(void);
 
 // Switch LED2
 void led_led2_switch(void);
-/***********************/
 
-/*** Internal/system functions ***/
+/* Public defines -----------------------------------------------------------*/
 
-/*********************************/
 
-/*** Definitions ***/
+/* Public macros ------------------------------------------------------------*/
+
 
 #endif /* LED_H_ */
