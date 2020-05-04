@@ -141,38 +141,40 @@ $(BUILD_DIR)%/.:
 .SECONDEXPANSION:
 $(BUILD_DIR)/%.o: %.c | $$(@D)/.	# If needed, subdir will be created
 	@echo Building file: $<
-	$(CC) $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(<:.c=.lst) -c $< -o $@
+	@$(CC) $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(<:.c=.lst) -c $< -o $@
+	@echo Finished building file: $<
 
 .SECONDEXPANSION:
 $(BUILD_DIR)/%.o: %.s | $$(@D)/.	# If needed, subdir will be created
 	@echo Building file: $<
-	$(AS) $(CFLAGS) -c $< -o $@
+	@$(AS) $(CFLAGS) -c $< -o $@
 	@echo Finished building file: $<
-	@echo
 
 # .bin
 # ------------------------------------------------------------------------------------------
 $(BUILD_DIR)/$(TARGET).bin: $(TARGET).elf
-	$(BIN) $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).bin
+	@$(BIN) $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).bin
 
 # .hex
 # ------------------------------------------------------------------------------------------
 $(BUILD_DIR)/$(TARGET).hex: $(TARGET).elf
-	$(HEX) $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex
+	@$(HEX) $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex
 
 # .elf
 # ------------------------------------------------------------------------------------------
 $(BUILD_DIR)/$(TARGET).elf: $(OBJS)
+	@echo
 	@echo Building target: $@
-	$(CC) $^ $(LDFLAGS) -o $@
+	@$(CC) $^ $(LDFLAGS) -o $@
 	@echo Finished building target: $@
-	$(SZ) $@
+	@echo
+	@$(SZ) $@
 
 # Clean up
 # ------------------------------------------------------------------------------------------
 clean:
 #	$(RM) -f $(wildcard $(TOREMOVE))
-	$(RM) -fR $(BUILD_DIR)
+	@$(RM) -fR $(BUILD_DIR)
 
 # Rebuild all
 # ------------------------------------------------------------------------------------------
